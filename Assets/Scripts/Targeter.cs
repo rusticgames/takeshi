@@ -23,8 +23,7 @@ public class Targeter : MonoBehaviour
 
 		if (hit.collider != null) {
 			cursor.transform.position = hit.point;
-			cursor.transform.rotation = Quaternion.LookRotation(hit.normal, Vector3.forward);
-			Debug.Log (hit.normal);
+			cursor.transform.forward = hit.normal;
 			foreach (Renderer r in renderers)
 				r.enabled = true;
 		} else {
