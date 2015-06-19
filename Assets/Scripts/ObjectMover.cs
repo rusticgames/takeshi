@@ -9,6 +9,7 @@ public class ObjectMover : MonoBehaviour
 
 	private Vector3 initialPosition;
 	private Vector3 targetPosition;
+	private bool completedMove;
 
 	void Start ()
 	{
