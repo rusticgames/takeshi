@@ -4,6 +4,8 @@ using System.Collections;
 public class Targeter : MonoBehaviour
 {
 	public GameObject cursorPrefab;
+	public RaycastHit lastHit;
+	public Texture2D cursorTexture;
 
 	private GameObject cursor;
 	private Renderer[] renderers;
@@ -22,8 +24,11 @@ public class Targeter : MonoBehaviour
 			Debug.DrawLine(ray.origin, hit.point);
 
 		if (hit.collider != null) {
+			lastHit = hit;
+
 			cursor.transform.position = hit.point;
 			cursor.transform.forward = hit.normal;
+
 			foreach (Renderer r in renderers)
 				r.enabled = true;
 		} else {
