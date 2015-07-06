@@ -3,10 +3,12 @@ using System.Collections;
 
 public class Warper : MonoBehaviour
 {
-	public float speed;
+	public float speed = 60;
 
 	private Targeter targeter;
 	private Collider collider;
+	private Vector3 warpPosition;
+	private bool warping;
 
 	void Awake()
 	{
@@ -20,15 +22,20 @@ public class Warper : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKey(KeyCode.LeftShift)) {
-			if (targeter.lastHit.collider.gameObject.GetComponent<WarpTarget>()) {
-				collider.enabled = false;
-				float step = speed * Time.deltaTime;
-				Vector3 warpTarget = targeter.lastHit.collider.transform.position;
-				transform.position = Vector3.MoveTowards(transform.position, warpTarget, step);
-			}
+		if (warping) {
+			collider.enabled = false;
+			float step = speed * Time.deltaTime;
+			transform.position = Vector3.MoveTowards(transform.position, warpPosition, step);
+			if (transform.position == warpPosition) warping = false;
 		} else {
 			collider.enabled = true;
+		}
+
+		if (Input.GetKeyDown(KeyCode.LeftShift) && !warping) {
+			if (targeter.lastHit.collider.gameObject.GetComponent<WarpTarget>()) {
+				warpPosition = targeter.lastHit.collider.transform.position;
+				warping = true;
+			}
 		}
 	}
 }
